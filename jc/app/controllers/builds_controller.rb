@@ -26,7 +26,14 @@ class BuildsController < ApplicationController
     def set_install_base
 
         @build = Build.find params[:id]
-        out = `cd #{Dir.home}/.jc/builds/#{@build.id} && cp  -v #{Dir.home}/.jc/artefacts/#{params[:path]} .`
+        dir_name = params[:path].sub('.tar.gz','')
+
+        cmd = "cd #{Dir.home}/.jc/builds/#{@build.id} && rm -rf *"
+        cmd << " && cp  -v #{Dir.home}/.jc/artefacts/#{params[:path]} ."
+        cmd << " && tar -xzf #{params[:path]} && cd #{dir_name} && cp -r cpanlib/ ../ "
+        cmd << " && cd ../ && rm -rf #{dir_name} && rm #{params[:path]} && ls -l cpanlib/"
+        out = `#{cmd}`
+
         render :text => "ustall base from: #{params[:path]} set ok\n output: #{out}"
 
     end
