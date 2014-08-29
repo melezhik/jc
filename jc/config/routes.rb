@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
     root 'builds#index'
 
-    resources :builds
+    resources :builds do
+        member do
+            post 'set_install_base'
+        end
+    end
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
