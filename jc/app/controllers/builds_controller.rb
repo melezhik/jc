@@ -18,7 +18,7 @@ private
 
     def _params
         params.require(:build).permit( 
-            :key
+            :key_id
         )
     end
 
