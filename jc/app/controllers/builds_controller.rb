@@ -1,3 +1,4 @@
+require 'fileutils'
 class BuildsController < ApplicationController
 
     def index 
@@ -9,9 +10,17 @@ class BuildsController < ApplicationController
     end
 
     def create
+
         @build = Build.new _params
+
+        logger.info "create build ID: #{@build.id}. key:#{_params[:key_id]} created ok"
+    
         @build.save!
-        render :text => "build ID: #{@build.id}. key:#{params[:key]} created ok\n"
+
+
+        FileUtils.mkdir_p "#{Dir.home}/.jc/builds/#{_params[:key_id]}"
+        render :text => "build ID: #{@build.id}. key:#{_params[:key_id]} created ok\n"
+
     end
 
 private
