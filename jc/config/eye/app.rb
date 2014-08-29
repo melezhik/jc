@@ -1,6 +1,7 @@
 cwd = File.expand_path(File.join(File.dirname(__FILE__), %w[ ../ ../ ]))
 port = 3000
 app = :jc
+puts cwd
 
 Eye.config do
     logger "#{cwd}/log/eye.log"
