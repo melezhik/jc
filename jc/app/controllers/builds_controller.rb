@@ -16,7 +16,8 @@ class BuildsController < ApplicationController
 
         @build.save!
 
-        FileUtils.mkdir_p "#{Dir.home}/.jc/builds/#{@build.id}"
+        FileUtils.mkdir_p _build_dir(@build)
+        FileUtils.mkdir_p _artefacts_dir
 
         _log @build, "\n\ncreate build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
 
@@ -34,7 +35,7 @@ class BuildsController < ApplicationController
         _log @build, "\n\nset install base from: #{params[:path]}\n\n"
 
         cmd = [ ]
-        cmd << "cd #{Dir.home}/.jc/builds/#{@build.id}"
+        cmd << "cd #{_build_dir(@build)}"
         cmd << "rm -rf #{dir_name}"
         cmd << "rm -rf cpanlib"
         cmd << "cp  -v #{Dir.home}/.jc/artefacts/#{params[:path]} ."
@@ -73,7 +74,7 @@ class BuildsController < ApplicationController
         _log @build, "dir name with ts: #{dir_name_with_ts}\n"
 
         cmd = []
-        cmd << "cd #{Dir.home}/.jc/builds/#{@build.id}"
+        cmd << "cd #{_build_dir(@build)}"
         cmd << "rm -rf temp"
         cmd << "mkdir temp"
         cmd << "cd temp"
@@ -107,7 +108,7 @@ private
 
 
     def log_path build
-        "#{Dir.home}/.jc/builds/#{build.id}/log.txt"
+        "#{_build_dir(build)}/log.txt"
     end
 
     def _log build, line
@@ -125,4 +126,14 @@ private
     def _cmd_str build, cmd = []
         cmd.map { |c| "#{c} 1>>#{log_path(build)} 2>&1" }.join " && \\\n"
     end
+
+
+    def _build_dir build
+        "#{Dir.home}/.jc/builds/#{build.id}"
+    end
+
+    def _artefacts_dir
+        "#{Dir.home}/.jc/artefacts"
+    end
+
 end
