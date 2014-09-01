@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         member do
             get 'log'
             post 'set_install_base'
+            post 'make_artefact'
         end
     end
   
