@@ -18,7 +18,7 @@ class BuildsController < ApplicationController
 
         FileUtils.mkdir_p "#{Dir.home}/.jc/builds/#{@build.id}"
 
-        log @build, "create build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
+        _log @build, "create build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
 
         response.headers['id'] = "#{@build.id}"
 
@@ -31,7 +31,7 @@ class BuildsController < ApplicationController
         @build = Build.find params[:id]
         dir_name = params[:path].sub('.tar.gz','')
 
-        log @build, "set install base from: #{params[:path]}\n\n"
+        _log @build, "set install base from: #{params[:path]}\n\n"
 
         cmd = [ ]
         cmd << "cd #{Dir.home}/.jc/builds/#{@build.id}"
@@ -46,10 +46,10 @@ class BuildsController < ApplicationController
 
         cmd_str = cmd.map { |c| "#{c} 1>>#{Dir.home}/.jc/builds/#{@build.id}/log.txt 2>&1" }.join ' && '
 
-        log @build, "running command: #{cmd_str}\n\n"
+        _log @build, "running command: #{cmd_str}\n\n"
 
         if system(cmd_str) == true
-            log @build, "set install base ok\n"
+            _log @build, "set install base ok\n"
             render :text => "set install base from: #{params[:path]} ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
@@ -57,11 +57,21 @@ class BuildsController < ApplicationController
 
     end
 
+
+    def log
+        @build = Build.find params[:id]
+        send_file log_path(@build)
+    end
+
 private
 
 
-    def log build, line
-        File.open("#{Dir.home}/.jc/builds/#{build.id}/log.txt", 'a') do |l|
+    def log_path build
+        "#{Dir.home}/.jc/builds/#{build.id}/log.txt"
+    end
+
+    def _log build, line
+        File.open(log_path(build), 'a') do |l|
             l << line
         end
     end

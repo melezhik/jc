@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
     resources :builds do
         member do
+            get 'log'
             post 'set_install_base'
         end
     end
