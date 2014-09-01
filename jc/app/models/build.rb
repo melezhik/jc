@@ -10,6 +10,7 @@ class Build < ActiveRecord::Base
     def log line
         File.open(log_path, 'a') do |l|
             l << line
+            l << "\n"
         end
     end
 

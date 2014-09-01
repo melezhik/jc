@@ -19,7 +19,7 @@ class BuildsController < ApplicationController
         FileUtils.mkdir_p @build.local_dir
         FileUtils.mkdir_p _artefacts_dir
 
-        @build.log "\n\ncreate build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
+        @build.log "create build ID: #{@build.id}. key:#{_params[:key_id]} ok"
 
         response.headers['id'] = "#{@build.id}"
 
@@ -32,7 +32,7 @@ class BuildsController < ApplicationController
         @build = Build.find params[:id]
         dir_name = params[:path].sub('.tar.gz','')
 
-        @build.log "\n\nset install base from: #{params[:path]}\n\n"
+        @build.log "set install base from: #{params[:path]}"
 
         cmd = [ ]
         cmd << "cd #{@build.build_dir}"
@@ -47,10 +47,10 @@ class BuildsController < ApplicationController
 
         cmd_str = @build.cmd_str cmd
 
-        @build.log  "running command: #{cmd_str}\n\n"
+        @build.log  "running command: #{cmd_str}"
 
         if system(cmd_str) == true
-            @build.log "set install base ok\n"
+            @build.log "set install base ok"
             render :text => "set install base from: #{params[:path]} ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
@@ -62,13 +62,14 @@ class BuildsController < ApplicationController
         @build = Build.find params[:id]
         list = []
         params[:names].each do |name|
-            @build.log  "schedulled install for #{params[:name]} \n\n"
+            @build.log  "schedulled install for #{name} "
             @dist = @build.dists.create( :name => name )
             @dist.save!
             list << @dist
         end
-        Delayed::Job.enqueue( InstallAsync.new( build,  list   ) )       
-        render :text => "\n\n schedulled asynchronous  install ok \n\n"
+        Delayed::Job.enqueue( InstallAsync.new( @build,  list   ) )       
+        @build.log "schedulled asynchronous  install for #{list.size} distributions total "
+        render :text => "schedulled asynchronous  install for #{list.size} distributions total \n"
 
     end
 
@@ -82,9 +83,9 @@ class BuildsController < ApplicationController
         timestamp = Time.now.strftime '%Y-%m-%d_%H-%M-%S'
         dir_name_with_ts = local_name.sub('.tar.gz',"-#{timestamp}") 
 
-        @build.log "\n\nmake artefact from #{url}. orig dir: #{orig_dir}\n"
-        @build.log "local name: #{local_name}\n"
-        @build.log "dir name with ts: #{dir_name_with_ts}\n"
+        @build.log "make artefact from #{url}. orig dir: #{orig_dir}"
+        @build.log "local name: #{local_name}"
+        @build.log "dir name with ts: #{dir_name_with_ts}"
 
         cmd = []
         cmd << "cd #{@build.build_dir}"
@@ -101,10 +102,10 @@ class BuildsController < ApplicationController
 
         cmd_str = @build.cmd_str cmd
 
-        @build.log  "running command: #{cmd_str}\n\n"
+        @build.log  "running command: #{cmd_str}"
 
         if system(cmd_str) == true
-            @build.log  "make artefact ok\n"
+            @build.log  "make artefact ok"
             render :text => "make artefact ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
