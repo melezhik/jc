@@ -43,3 +43,8 @@ gem 'mysql2'
 
 gem 'eye'
 
+gem 'delayed_job'
+
+gem 'delayed_job_active_record'
+gem 'daemons'
+

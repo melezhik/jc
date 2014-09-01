@@ -16,10 +16,10 @@ class BuildsController < ApplicationController
 
         @build.save!
 
-        FileUtils.mkdir_p _build_dir(@build)
+        FileUtils.mkdir_p @build.local_dir
         FileUtils.mkdir_p _artefacts_dir
 
-        _log @build, "\n\ncreate build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
+        @build.log "\n\ncreate build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
 
         response.headers['id'] = "#{@build.id}"
 
@@ -32,10 +32,10 @@ class BuildsController < ApplicationController
         @build = Build.find params[:id]
         dir_name = params[:path].sub('.tar.gz','')
 
-        _log @build, "\n\nset install base from: #{params[:path]}\n\n"
+        @build.log "\n\nset install base from: #{params[:path]}\n\n"
 
         cmd = [ ]
-        cmd << "cd #{_build_dir(@build)}"
+        cmd << "cd #{@build.build_dir}"
         cmd << "rm -rf #{dir_name}"
         cmd << "rm -rf cpanlib"
         cmd << "cp  -v #{Dir.home}/.jc/artefacts/#{params[:path]} ."
@@ -45,12 +45,12 @@ class BuildsController < ApplicationController
         cmd << "cd ../"
         cmd << "rm -rf #{dir_name} #{params[:path]}"
 
-        cmd_str = _cmd_str @build, cmd
+        cmd_str = @build.cmd_str cmd
 
-        _log @build, "running command: #{cmd_str}\n\n"
+        @build.log  "running command: #{cmd_str}\n\n"
 
         if system(cmd_str) == true
-            _log @build, "set install base ok\n"
+            @build.log "set install base ok\n"
             render :text => "set install base from: #{params[:path]} ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
@@ -58,6 +58,11 @@ class BuildsController < ApplicationController
 
     end
 
+    def install
+        @build = Build.find params[:id]
+        url = params[:url]
+        
+    end
 
     def make_artefact
 
@@ -69,12 +74,12 @@ class BuildsController < ApplicationController
         timestamp = Time.now.strftime '%Y-%m-%d_%H-%M-%S'
         dir_name_with_ts = local_name.sub('.tar.gz',"-#{timestamp}") 
 
-        _log @build, "\n\nmake artefact from #{url}. orig dir: #{orig_dir}\n"
-        _log @build, "local name: #{local_name}\n"
-        _log @build, "dir name with ts: #{dir_name_with_ts}\n"
+        @build.log "\n\nmake artefact from #{url}. orig dir: #{orig_dir}\n"
+        @build.log "local name: #{local_name}\n"
+        @build.log "dir name with ts: #{dir_name_with_ts}\n"
 
         cmd = []
-        cmd << "cd #{_build_dir(@build)}"
+        cmd << "cd #{@build.build_dir}"
         cmd << "rm -rf temp"
         cmd << "mkdir temp"
         cmd << "cd temp"
@@ -84,14 +89,14 @@ class BuildsController < ApplicationController
         cmd << "cp -r ../cpanlib #{dir_name_with_ts}"
         cmd << "tar -czf #{dir_name_with_ts}.tar.gz #{dir_name_with_ts}"
         cmd << "mv #{dir_name_with_ts}.tar.gz #{Dir.home}/.jc/artefacts"
-        cmd << "ls -lth #{Dir.home}/.jc/artefacts/#{dir_name_with_ts}.tar.gz"
+        cmd << "ls -lth #{_artefacts_dir}/#{dir_name_with_ts}.tar.gz"
 
-        cmd_str = _cmd_str @build, cmd
+        cmd_str = @build.cmd_str cmd
 
-        _log @build, "running command: #{cmd_str}\n\n"
+        @build.log  "running command: #{cmd_str}\n\n"
 
         if system(cmd_str) == true
-            _log @build, "make artefact ok\n"
+            @build.log  "make artefact ok\n"
             render :text => "make artefact ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
@@ -101,35 +106,15 @@ class BuildsController < ApplicationController
 
     def log
         @build = Build.find params[:id]
-        send_file log_path(@build)
+        send_file @build.log_path
     end
 
 private
-
-
-    def log_path build
-        "#{_build_dir(build)}/log.txt"
-    end
-
-    def _log build, line
-        File.open(log_path(build), 'a') do |l|
-            l << line
-        end
-    end
 
     def _params
         params.require(:build).permit( 
             :key_id
         )
-    end
-
-    def _cmd_str build, cmd = []
-        cmd.map { |c| "#{c} 1>>#{log_path(build)} 2>&1" }.join " && \\\n"
-    end
-
-
-    def _build_dir build
-        "#{Dir.home}/.jc/builds/#{build.id}"
     end
 
     def _artefacts_dir
