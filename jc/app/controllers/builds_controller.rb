@@ -60,8 +60,16 @@ class BuildsController < ApplicationController
 
     def install
         @build = Build.find params[:id]
-        url = params[:url]
-        
+        list = []
+        params[:names].each do |name|
+            @build.log  "schedulled install for #{params[:name]} \n\n"
+            @dist = @build.dists.create( :name => name )
+            @dist.save!
+            list << @dist
+        end
+        Delayed::Job.enqueue( InstallAsync.new( build,  list   ) )       
+        render :text => "\n\n schedulled asynchronous  install ok \n\n"
+
     end
 
     def make_artefact
