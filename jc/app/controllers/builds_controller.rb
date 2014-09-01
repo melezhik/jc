@@ -16,7 +16,7 @@ class BuildsController < ApplicationController
 
         @build.save!
 
-        FileUtils.mkdir_p @build.local_dir
+        FileUtils.mkdir_p @build.build_dir
         FileUtils.mkdir_p _artefacts_dir
 
         @build.log "create build ID: #{@build.id}. key:#{_params[:key_id]} ok"
