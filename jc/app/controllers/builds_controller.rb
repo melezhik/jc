@@ -14,13 +14,15 @@ class BuildsController < ApplicationController
 
         @build = Build.new _params
 
-        logger.info "create build ID: #{@build.id}. key:#{_params[:key_id]}"
-    
         @build.save!
 
         FileUtils.mkdir_p "#{Dir.home}/.jc/builds/#{@build.id}"
 
-        render :text => "created build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
+        log @build, "create build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
+
+        response.headers['id'] = "#{@build.id}"
+
+        render :text => "create build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
 
     end
 
@@ -29,9 +31,7 @@ class BuildsController < ApplicationController
         @build = Build.find params[:id]
         dir_name = params[:path].sub('.tar.gz','')
 
-        File.open("#{Dir.home}/.jc/builds/#{@build.id}/log.txt", 'a') do |l|
-            l << "set install base from: #{params[:path]}\n\n"
-        end
+        log @build, "set install base from: #{params[:path]}\n\n"
 
         cmd = [ ]
         cmd << "cd #{Dir.home}/.jc/builds/#{@build.id}"
@@ -46,14 +46,10 @@ class BuildsController < ApplicationController
 
         cmd_str = cmd.map { |c| "#{c} 1>>#{Dir.home}/.jc/builds/#{@build.id}/log.txt 2>&1" }.join ' && '
 
-        File.open("#{Dir.home}/.jc/builds/#{@build.id}/log.txt", 'a') do |l|
-            l << "running command: #{cmd_str}\n\n"
-        end
+        log @build, "running command: #{cmd_str}\n\n"
 
         if system(cmd_str) == true
-            File.open("#{Dir.home}/.jc/builds/#{@build.id}/log.txt", 'a') do |l|
-                l << "set install base ok\n"
-            end
+            log @build, "set install base ok\n"
             render :text => "set install base from: #{params[:path]} ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
@@ -63,6 +59,12 @@ class BuildsController < ApplicationController
 
 private
 
+
+    def log build, line
+        File.open("#{Dir.home}/.jc/builds/#{build.id}/log.txt", 'a') do |l|
+            l << line
+        end
+    end
 
     def _params
         params.require(:build).permit( 
