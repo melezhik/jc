@@ -43,7 +43,7 @@ creates js build object, on success returns ID in build_id header
 
 ## make request for asynchronous install of targets
 
-    curl -X POST  -d 'names[]=Foo::Bar' -d 'names[]=Foo-Baz-0.1.tar.gz'  -d "names[]=Adriver::DBI"  http://melezhik.x:3000/builds/25/install
+    curl -X POST  -d 'names[]=Foo::Bar' -d 'names[]=P/PINTO/Foo-Bar-Baz-0.1.0.tar.gz'  -d 'names[]=Adriver::DBI'  http://melezhik.x:3000/builds/25/install
 
 ## get current state of  target installed
 
