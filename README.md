@@ -41,4 +41,19 @@ creates js build object, on success returns ID in build_id header
 
     curl  http://127.0.0.1:3000/builds/25/log
 
+## make request for asynchronous install of targets
+
+    curl -X POST  -d 'names[]=Foo::Bar' -d 'names[]=Foo-Baz-0.1.tar.gz'  -d "names[]=Adriver::DBI"  http://melezhik.x:3000/builds/25/install
+
+## get current state of  target installed
+
+    curl  http://127.0.0.1:3000/builds/25/target_state?name=Adriver::DBI
+
+returns target state as `target_state' http header, one of these:
+
+    - OK
+    - FAIL
+    - IN_PROCESS
+
+
 
