@@ -6,6 +6,7 @@ class InstallAsync < Struct.new( :build, :list , :env   )
     end
 
     def before(job) 
+        build.log "perl5lib: #{ENV['PERL5LIB']}"
         build.log "scheduled async install"
     end
 
