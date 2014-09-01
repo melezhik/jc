@@ -1,5 +1,8 @@
 class Build < ActiveRecord::Base
 
+    has_many :dists
+    validates :key_id, presence: true    
+
     def log_path
         "#{build_dir}/log.txt"
     end

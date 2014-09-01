@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140901121713) do
+ActiveRecord::Schema.define(version: 20140901123743) do
 
   create_table "builds", force: true do |t|
     t.integer  "key_id"
@@ -36,5 +36,15 @@ ActiveRecord::Schema.define(version: 20140901121713) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "dists", force: true do |t|
+    t.string   "state"
+    t.string   "name"
+    t.integer  "build_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dists", ["build_id"], name: "index_dists_on_build_id", using: :btree
 
 end
