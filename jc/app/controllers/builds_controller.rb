@@ -74,13 +74,16 @@ class BuildsController < ApplicationController
 
         cmd = []
         cmd << "cd #{Dir.home}/.jc/builds/#{@build.id}"
-        cmd << "rm -rf #{local_name}"
-        cmd << "curl #{url} -o #{local_name}"
+        cmd << "rm -rf temp"
+        cmd << "mkdir temp"
+        cmd << "cd temp"
+        cmd << "curl  #{url} -o #{local_name} -s -f"
         cmd << "tar -xzf #{local_name}"
         cmd << "mv #{orig_dir} #{dir_name_with_ts}"
-        cmd << "cp -r ./cpanlib #{dir_name_with_ts}"
+        cmd << "cp -r ../cpanlib #{dir_name_with_ts}"
         cmd << "tar -czf #{dir_name_with_ts}.tar.gz #{dir_name_with_ts}"
-        cmd << "ls -lth #{Dir.home}/.jc/builds/#{@build.id}"
+        cmd << "mv #{dir_name_with_ts}.tar.gz #{Dir.home}/.jc/artefacts"
+        cmd << "ls -lth #{Dir.home}/.jc/artefacts/#{dir_name_with_ts}.tar.gz"
 
         cmd_str = _cmd_str @build, cmd
 

@@ -37,5 +37,8 @@ creates js build object, on success returns ID in build_id header
 - creates artefact for given distribution 
 
 
+## show build log
+
+    curl  http://127.0.0.1:3000/builds/25/log
 
 
