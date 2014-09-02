@@ -1,5 +1,5 @@
 cwd = File.expand_path(File.join(File.dirname(__FILE__), %w[ ../ ../ ]))
-port = 3000
+port = 3001
 app = :jc
 puts cwd
 

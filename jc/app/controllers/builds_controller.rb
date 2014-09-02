@@ -3,7 +3,7 @@ require 'fileutils'
 class BuildsController < ApplicationController
 
     def index 
-        render :text => "hello world\n"
+        render :text => "hello world! this is the jc server\n"
     end
 
     def new
