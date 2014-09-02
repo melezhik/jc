@@ -51,9 +51,9 @@ creates js build object, on success returns ID in build_id header
 
 returns target state as `target_state' http header, one of these:
 
-    - OK
-    - FAIL
-    - IN_PROCESS
-
+    - pending # wait for scheduller to run target install
+    - install # target is being installed currently 
+    - ok # target successfully installed
+    - fail # failed to install target
 
 

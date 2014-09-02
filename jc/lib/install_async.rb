@@ -2,6 +2,10 @@ class InstallAsync < Struct.new( :build, :list , :env   )
 
     def perform
         runner = InstallTarget.new build, list, env, self
+        list.each do |t|
+                t.update :state => 'install'
+                t.save!
+        end
         runner.run 
     end
 

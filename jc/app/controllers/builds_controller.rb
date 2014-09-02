@@ -60,7 +60,7 @@ class BuildsController < ApplicationController
 
         params[:names].each do |name|
             @build.log  "schedulled install for target <#{name}>"
-            target = @build.targets.create( :name => name )
+            target = @build.targets.create( :name => name, :state => 'pending' )
             target.save!
             list << target
         end
