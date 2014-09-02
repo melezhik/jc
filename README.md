@@ -1,22 +1,19 @@
 # SYNOPSIS
-JC - is a jam compiler service
+
+JC - is a jessy compiler
 
 
 # INSTALLATION
 
 
-    mkdir -p ~/.js/builds
-
     git clone git@git.x:melezhik/jc.git
     cd jc/js
     eye load config/eye/app.rb
-    eye l
 
 
 # API
 
 ## create build
-
 
     curl -X POST  -d 'build[key_id]=33' http://127.0.0.1:3000/builds/ -D -
 
