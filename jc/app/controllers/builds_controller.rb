@@ -126,6 +126,13 @@ class BuildsController < ApplicationController
         render :text => summary.join("\n")
     end
 
+    def target_state
+        @build = Build.find params[:id]
+        tg_name = params[:name]
+        tg = @build.targets.find_by_name!(tg_name)
+        render :text => tg.state
+    end
+
     def log
         @build = Build.find params[:id]
         send_file @build.log_path

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         member do
             get 'log'
             get 'summary'
+            get 'target_state'
             post 'copy'
             post 'make_artefact'
             post 'install'
