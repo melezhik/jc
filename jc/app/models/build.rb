@@ -7,11 +7,12 @@ class Build < ActiveRecord::Base
         "#{dir}/log.txt"
     end
 
+    def logger
+        @logger ||= Logger.new(File.open(log_path, 'a'))
+    end
+
     def log line
-        File.open(log_path, 'a') do |l|
-            l << line
-            l << "\n"
-        end
+        logger.info line
     end
 
     def cmd_str cmd = []
