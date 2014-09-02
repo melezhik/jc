@@ -58,7 +58,7 @@ class BuildsController < ApplicationController
         env = Hash.new
         env[:cpan_mirror] = params[:cpan_mirror]
 
-        params[:names].each do |name|
+        params[:t].each do |name|
             @build.log  "schedulled install for target <#{name}>"
             target = @build.targets.create( :name => name, :state => 'pending' )
             target.save!
