@@ -20,7 +20,7 @@ JC - is a jam compiler service
 
     curl -X POST  -d 'build[key_id]=33' http://127.0.0.1:3000/builds/ -D -
 
-creates js build object, on success returns ID in build_id header
+creates js build object, on success returns object's ID in `build_id` http header
 
 
 ## copy

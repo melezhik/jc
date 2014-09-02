@@ -21,7 +21,7 @@ class BuildsController < ApplicationController
 
         @build.log "create build ID: #{@build.id}. key:#{_params[:key_id]} ok"
 
-        response.headers['id'] = "#{@build.id}"
+        response.headers['build_id'] = "#{@build.id}"
 
         render :text => "create build ID: #{@build.id}. key:#{_params[:key_id]} ok\n"
 
