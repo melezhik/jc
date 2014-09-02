@@ -52,15 +52,19 @@ class BuildsController < ApplicationController
     end
 
     def install
+
         @build = Build.find params[:id]
         list = []
+        env = Hash.new
+        env[:cpan_mirror] = params[:cpan_mirror]
+
         params[:names].each do |name|
             @build.log  "schedulled install for target <#{name}>"
             @dist = @build.dists.create( :name => name )
             @dist.save!
             list << @dist
         end
-        Delayed::Job.enqueue( InstallAsync.new( @build,  list   ) )       
+        Delayed::Job.enqueue( InstallAsync.new( @build,  list, env    ) )       
         @build.log "schedulled asynchronous  install for #{list.size} targets"
         render :text => "schedulled asynchronous  install for #{list.size} targets\n"
 
