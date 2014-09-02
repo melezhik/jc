@@ -130,7 +130,8 @@ class BuildsController < ApplicationController
         @build = Build.find params[:id]
         tg_name = params[:name]
         tg = @build.targets.find_by_name!(tg_name)
-        render :text => tg.state
+        response.headers['target_state'] = tg.state
+        render :text => "#{tg.state}\n"
     end
 
     def log
