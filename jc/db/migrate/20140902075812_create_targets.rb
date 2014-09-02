@@ -1,6 +1,6 @@
-class CreateDists < ActiveRecord::Migration
+class CreateTargets < ActiveRecord::Migration
   def change
-    create_table :dists do |t|
+    create_table :targets do |t|
       t.string :state
       t.string :name
       t.references :build, index: true

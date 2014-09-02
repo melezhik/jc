@@ -1,6 +1,6 @@
 class Build < ActiveRecord::Base
 
-    has_many :dists
+    has_many :targets
     validates :key_id, presence: true    
 
     def log_path

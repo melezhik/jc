@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DistTest < ActiveSupport::TestCase
+class TargetTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

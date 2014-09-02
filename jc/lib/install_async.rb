@@ -1,7 +1,7 @@
 class InstallAsync < Struct.new( :build, :list , :env   )
 
     def perform
-        #runner = RunInstall.new build, dist, env, self
+        #runner = RunInstall.new build, target, env, self
         #runner.run 
     end
 
