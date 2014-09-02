@@ -23,11 +23,11 @@ JC - is a jam compiler service
 creates js build object, on success returns ID in build_id header
 
 
-## set install base
+## copy
 
-    curl -X POST  -d 'path=boomerang2-bundle-v0.2.5.66567-1033-2014-08-29_16-04-13.tar.gz' http://127.0.0.1:3000/builds/25/set_install_base
+    curl -X POST  http://127.0.0.1:3000/builds/27/copy?key_id=25 -d ''
 
-- gets install base from given artefact and copies it into js build directory
+- copies jc build with key_id into given js build, techically speaking copies install base from one build to another 
 
 
 ## make artefact

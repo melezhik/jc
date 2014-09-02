@@ -4,7 +4,7 @@ class Build < ActiveRecord::Base
     validates :key_id, presence: true    
 
     def log_path
-        "#{build_dir}/log.txt"
+        "#{dir}/log.txt"
     end
 
     def log line
@@ -19,7 +19,7 @@ class Build < ActiveRecord::Base
     end
 
 
-    def build_dir
+    def dir
         "#{Dir.home}/.jc/builds/#{id}"
     end
 

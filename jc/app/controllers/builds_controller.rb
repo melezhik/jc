@@ -16,7 +16,7 @@ class BuildsController < ApplicationController
 
         @build.save!
 
-        FileUtils.mkdir_p @build.build_dir
+        FileUtils.mkdir_p @build.dir
         FileUtils.mkdir_p _artefacts_dir
 
         @build.log "create build ID: #{@build.id}. key:#{_params[:key_id]} ok"
@@ -27,31 +27,24 @@ class BuildsController < ApplicationController
 
     end
 
-    def set_install_base
+    def copy
 
+        @old_build = Build.find params[:key_id]
         @build = Build.find params[:id]
-        dir_name = params[:path].sub('.tar.gz','')
 
-        @build.log "set install base from: #{params[:path]}"
+        @build.log "copy builds: from: #{@old_build.id} to #{@build.id}"
 
         cmd = [ ]
-        cmd << "cd #{@build.build_dir}"
-        cmd << "rm -rf #{dir_name}"
-        cmd << "rm -rf cpanlib"
-        cmd << "cp  -v #{Dir.home}/.jc/artefacts/#{params[:path]} ."
-        cmd << "tar -xzf #{params[:path]}"
-        cmd << "cd #{dir_name}"
-        cmd << "cp -r cpanlib/ ../"
-        cmd << "cd ../"
-        cmd << "rm -rf #{dir_name} #{params[:path]}"
+        cmd << "rm -rf #{@build.dir}/cpanlib"
+        cmd << "cp -r #{@old_build.dir}/cpanlib/  #{@build.dir}/"
 
         cmd_str = @build.cmd_str cmd
 
         @build.log  "running command: #{cmd_str}"
 
         if system(cmd_str) == true
-            @build.log "set install base ok"
-            render :text => "set install base from: #{params[:path]} ok\n"
+            @build.log "copy ok"
+            render :text => "copy ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
         end
@@ -88,7 +81,7 @@ class BuildsController < ApplicationController
         @build.log "dir name with ts: #{dir_name_with_ts}"
 
         cmd = []
-        cmd << "cd #{@build.build_dir}"
+        cmd << "cd #{@build.dir}"
         cmd << "rm -rf temp"
         cmd << "mkdir temp"
         cmd << "cd temp"

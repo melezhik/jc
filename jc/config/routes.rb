@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :builds do
         member do
             get 'log'
-            post 'set_install_base'
+            post 'copy'
             post 'make_artefact'
             post 'install'
         end
