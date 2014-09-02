@@ -115,6 +115,11 @@ class BuildsController < ApplicationController
         send_file @build.log_path
     end
 
+    def truncate_log
+        @build = Build.find params[:id]
+        @build.truncate_log
+    end
+
 private
 
     def _params

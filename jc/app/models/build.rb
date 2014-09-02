@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class Build < ActiveRecord::Base
 
     has_many :targets
@@ -22,6 +24,10 @@ class Build < ActiveRecord::Base
 
     def dir
         "#{Dir.home}/.jc/builds/#{id}"
+    end
+
+    def truncate_log
+        File.truncate log_path, 0
     end
 
 end

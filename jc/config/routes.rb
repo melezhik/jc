@@ -12,6 +12,7 @@ Rails.application.routes.draw do
             post 'copy'
             post 'make_artefact'
             post 'install'
+            post 'truncate_log'
         end
     end
   
