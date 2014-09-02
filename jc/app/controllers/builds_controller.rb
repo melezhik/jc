@@ -110,6 +110,22 @@ class BuildsController < ApplicationController
 
     end
 
+    def summary
+
+        @build = Build.find params[:id]
+
+        summary = [ "Build ID: #{@build.id}" ]
+        summary << "targets list"
+
+        @build.targets.each do |t|
+            summary << "ID:#{t.id} Name:#{t.name} State:#{t.state}"
+        end
+
+        summary << ""
+
+        render :text => summary.join("\n")
+    end
+
     def log
         @build = Build.find params[:id]
         send_file @build.log_path

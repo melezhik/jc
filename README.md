@@ -57,3 +57,9 @@ returns target state as `target_state' http header, one of these:
     - fail # failed to install target
 
 
+## summary
+
+    http://127.0.0.1:3000/builds/25/summary 
+
+returns build summary info in human readable form
+

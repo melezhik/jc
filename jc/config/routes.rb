@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :builds do
         member do
             get 'log'
+            get 'summary'
             post 'copy'
             post 'make_artefact'
             post 'install'
