@@ -10,7 +10,13 @@ class Build < ActiveRecord::Base
     end
 
     def logger
-        @logger ||= Logger.new(File.open(log_path, 'a'))
+        if @logger 
+            @logger
+        else
+            f = File.open(log_path, 'a')
+            f.sync = true
+            @logger =  Logger.new f
+        end
     end
 
     def log line

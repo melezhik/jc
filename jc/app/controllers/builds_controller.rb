@@ -118,6 +118,7 @@ class BuildsController < ApplicationController
     def truncate_log
         @build = Build.find params[:id]
         @build.truncate_log
+        render :text => "log truncate ok\n"
     end
 
 private
