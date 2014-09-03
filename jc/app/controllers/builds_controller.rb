@@ -16,7 +16,7 @@ class BuildsController < ApplicationController
 
         @build.save!
 
-        FileUtils.mkdir_p @build.dir
+        FileUtils.mkdir_p "#{@build.dir}/cpanlib/"
         FileUtils.mkdir_p _artefacts_dir
 
         @build.log "create build ID: #{@build.id}. key:#{_params[:key_id]} ok"
