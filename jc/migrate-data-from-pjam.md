@@ -10,3 +10,8 @@ find ~/.jc/builds/ -name cpanlib | wc -l
 
 должны выдать одинаковое кол-во файлов
 
+
+# патч базы 
+mysql -h mysql3.adriver.x -upinto -ppinto pinto -sNe 'alter table builds add column has_install_base tinyint(1)'
+mysql -h mysql3.adriver.x -upinto -ppinto pinto -sNe  'update builds set has_install_base = 1 where has_stack  = 1'
+
