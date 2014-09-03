@@ -22,7 +22,7 @@ creates js build object, on success returns object's ID in `build_id` http heade
 
 ## copy
 
-    curl -X POST  http://127.0.0.1:3000/builds/27/copy?key_id=25 -d ''
+    curl -X POST  http://127.0.0.1:3000/builds/27/copy?key_id=1001 -d ''
 
 - copies jc build with key_id into given js build, techically speaking copies install base from one build to another 
 
