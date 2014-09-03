@@ -3,7 +3,18 @@ require 'fileutils'
 class BuildsController < ApplicationController
 
     def index 
-        render :text => "hello world! this is the jc server\n"
+
+        summary = [ "hello world! this is the jc server. version <#{Jessy.version}>" ]
+        summary << "latest builds list:"
+
+        Build.all.order( :id => :desc ).limit(10).each do |b|
+            summary << "ID:#{b.id} upd at #{b[:updated_at].strftime('%B %d, %Y at %H:%M')} "
+        end
+        summary << ""
+
+        render :text => summary.join("\n")
+
+		
     end
 
     def new
