@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :builds do
         member do
             get 'log'
+            get 'short_log'
             get 'summary'
             get 'target_state'
             post 'copy'

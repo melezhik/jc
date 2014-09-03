@@ -150,6 +150,11 @@ class BuildsController < ApplicationController
         send_file @build.log_path
     end
 
+    def short_log
+        @build = Build.find params[:id]
+        render :text => `tail -n 10 #{@build.log_path}`
+    end
+
     def truncate_log
         @build = Build.find params[:id]
         @build.truncate_log
