@@ -81,7 +81,7 @@ class BuildsController < ApplicationController
 
     end
 
-    def make_artefact
+    def artefact
 
         @build = Build.find params[:id]
         url = params[:url]
@@ -91,7 +91,7 @@ class BuildsController < ApplicationController
         timestamp = Time.now.strftime '%Y-%m-%d_%H-%M-%S'
         dir_name_with_ts = local_name.sub('.tar.gz',"-#{timestamp}") 
 
-        @build.log "make artefact from #{url}. orig dir: #{orig_dir}"
+        @build.log "create artefact from #{url}. orig dir: #{orig_dir}"
         @build.log "local name: #{local_name}"
         @build.log "dir name with ts: #{dir_name_with_ts}"
 
@@ -113,8 +113,9 @@ class BuildsController < ApplicationController
         @build.log  "running command: #{cmd_str}"
 
         if system(cmd_str) == true
-            @build.log  "make artefact ok"
-            render :text => "make artefact ok\n"
+            @build.log  "create artefact ok"
+	    response.headers['dist_name'] = "#{dir_name_with_ts}.tar.gz"
+            render :text => "create artefact ok\n"
         else
             render :text => "command #{cmd_str} failed\n", :status => 500
         end

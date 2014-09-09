@@ -13,7 +13,7 @@ Rails.application.routes.draw do
             get 'summary'
             get 'target_state'
             post 'copy'
-            post 'make_artefact'
+            post 'artefact'
             post 'install'
             post 'truncate_log'
         end

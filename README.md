@@ -27,11 +27,11 @@ creates js build object, on success returns object's ID in `build_id` http heade
 - copies jc build with key_id into given js build, techically speaking copies install base from one build to another 
 
 
-## make artefact
+## create artefact
 
-    curl -X POST  -d 'url=file:///tmp/boomerang2-bundle-v0.2.5.66567-1033.tar.gz' -d 'orig_dir=boomerang2-bundle-v0.2.5' http://127.0.0.1:3000/builds/25/make_artefact    
+    curl -X POST  -d 'url=file:///tmp/boomerang2-bundle-v0.2.5.66567-1033.tar.gz' -d 'orig_dir=boomerang2-bundle-v0.2.5' http://127.0.0.1:3000/builds/25/artefact    
 
-- creates artefact for given distribution 
+- creates artefact for given distribution, returns artefact name as `dist_name` http header
 
 
 ## show build log
