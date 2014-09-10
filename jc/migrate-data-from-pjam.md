@@ -1,7 +1,7 @@
-# creates build objects
+# creates jc build objects
 mysql -h mysql3.adriver.x -upinto -ppinto pinto -sNe 'select id from builds where has_stack is true order by id asc' | perl -n  -e 'chomp; print "curl --no-proxy 127.0.0.1:3001 -X POST  -d 'build[key_id]=\$_' http://127.0.0.1:3000/builds\n"' | bash
 
-# copies cpanlibs 
+# copies cpanlibs into jc server 
 find  /home/pinto/.pjam/projects/ -maxdepth 2 -mindepth 2  -name builds -exec find  {} -maxdepth 2  -name cpanlib \; | perl -n -e '@a = split "/"; print "select $a[-2], $a[-4], id from builds where key_id =  $a[-2] ; \n"'  | mysql -hsql3.webdev.x -pjc -ujc jc -sN | perl -n -e '($bid,$pid,$id) = split; print "cp -r /home/pinto/.pjam/projects/$pid/builds/$bid/cpanlib  ~/.jc/builds/$id/ \n"' | bash
 
 # проверка
