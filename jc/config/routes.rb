@@ -14,6 +14,7 @@ Rails.application.routes.draw do
             get 'target_state'
             post 'copy'
             post 'artefact'
+            get  'get_artefact'
             post 'install'
             post 'truncate_log'
         end

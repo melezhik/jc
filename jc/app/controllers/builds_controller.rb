@@ -105,7 +105,7 @@ class BuildsController < ApplicationController
         cmd << "mv #{orig_dir} #{dir_name_with_ts}"
         cmd << "cp -r ../cpanlib #{dir_name_with_ts}"
         cmd << "tar -czf #{dir_name_with_ts}.tar.gz #{dir_name_with_ts}"
-        cmd << "mv #{dir_name_with_ts}.tar.gz #{Dir.home}/.jc/artefacts"
+        cmd << "mv #{dir_name_with_ts}.tar.gz #{_artefacts_dir}"
         cmd << "ls -lth #{_artefacts_dir}/#{dir_name_with_ts}.tar.gz"
 
         cmd_str = @build.cmd_str cmd
@@ -121,7 +121,7 @@ class BuildsController < ApplicationController
         end
 
     end
-
+   
     def summary
 
         @build = Build.find params[:id]

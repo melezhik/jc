@@ -6,10 +6,17 @@ JC - is a jessy compiler
 # INSTALLATION
 
 
+    su - jc
     git clone git@git.x:melezhik/jc.git
-    cd jc/js
+    cd jc/jc
     eye load config/eye/app.rb
 
+# Configuration
+
+    su - jc
+    mkdir -p ~/.jc/artefacts
+    cd jc/jc/public/
+    ln -s ~/.jc/artefacts artefacts
 
 # API
 
@@ -59,4 +66,10 @@ returns target state as `target_state' http header, one of these:
     http://127.0.0.1:3000/builds/25/summary 
 
 returns build summary info in human readable form
+
+##
+    curl 127.0.0.1:3001/artefacts/Simple-Foo-v0.1.0.66644-1128-2014-09-10_14-30-22.tar.gz
+
+download artefact
+
 
