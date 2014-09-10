@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'terminal-table'
 
 class BuildsController < ApplicationController
 
@@ -126,14 +127,17 @@ class BuildsController < ApplicationController
 
         @build = Build.find params[:id]
 
-        summary = [ "Build ID: #{@build.id}" ]
-        summary << "targets list"
+        summary = [ "", "Build ID: #{@build.id}. Targets summary." ]
+
+        rows = []
 
         @build.targets.each do |t|
-            summary << "ID:#{t.id} Name:#{t.name} State:#{t.state}"
+            rows << [ t.id, t.name, t.state, t.created_at.strftime('%B %d, %Y at %H:%M')  ]
         end
 
-        summary << ""
+        table = Terminal::Table.new :headings => ['ID', 'Name', 'State' , 'Time' ], :rows =>  rows
+
+        summary << [ "#{table}", "" ]
 
         render :text => summary.join("\n")
     end
