@@ -37,32 +37,30 @@ class Build < ActiveRecord::Base
         File.truncate log_path, 0
     end
 
-private
-
     def execute_cmd( cmd = [], raise_ex = true )
     
             cmd_str = cmd_str cmd
 
-            log :info, "running command: #{cmd_str}"
+            log "running command: #{cmd_str}"
     
             exit_status = nil
 
             Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
     
                 while line = stdout.gets("\n")
-                    log :debug,  line
+                    log line
                 end
     
                 while line = stderr.gets("\n")
-                    log :error,  line
+                    log line
                 end
     
                 exit_status = wait_thr.value
     
                 if exit_status.success?
-                    log :debug, "command successfully executed, exit status: #{exit_status}"
+                    log "command successfully executed, exit status: #{exit_status}"
                 else
-                    log :error, "command unsuccessfully executed, exit status: #{exit_status}"
+                    log "command unsuccessfully executed, exit status: #{exit_status}"
                     raise "command unsuccessfully executed, exit status: #{exit_status}" if raise_ex == true
                 end
             end
