@@ -56,7 +56,7 @@ class BuildsController < ApplicationController
         cmd << "rm -rf #{@build.dir}/cpanlib"
         cmd << "cp -r #{@old_build.dir}/cpanlib/  #{@build.dir}/"
 
-        if build.execute_cmd(cmd) == true
+        if @build.execute_cmd(cmd) == true
             @build.log "copy ok"
             render :text => "copy build ok\n"
         else
