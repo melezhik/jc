@@ -21,7 +21,7 @@ class Build < ActiveRecord::Base
     end
 
     def log line
-        logger.info line
+        logger.info line.chomp
     end
 
     def cmd_str cmd = []
