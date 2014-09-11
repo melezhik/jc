@@ -22,6 +22,7 @@ class BuildsController < ApplicationController
         @report = Build.new
     end
 
+    
     def create
 
         @build = Build.new _params
@@ -39,6 +40,11 @@ class BuildsController < ApplicationController
 
     end
 
+    def show
+        @build = Build.find params[:id]
+        redirect_to log_build_path @build
+    end
+
     def copy
 
         @old_build = Build.find_by_key_id! params[:key_id]
@@ -50,15 +56,11 @@ class BuildsController < ApplicationController
         cmd << "rm -rf #{@build.dir}/cpanlib"
         cmd << "cp -r #{@old_build.dir}/cpanlib/  #{@build.dir}/"
 
-        cmd_str = @build.cmd_str cmd
-
-        @build.log  "running command: #{cmd_str}"
-
-        if system(cmd_str) == true
+        if build.execute_cmd(cmd) == true
             @build.log "copy ok"
-            render :text => "copy ok\n"
+            render :text => "copy build ok\n"
         else
-            render :text => "command #{cmd_str} failed\n", :status => 500
+            render :text => "copy build failed\ncheck #{url_for(@build) } for details", :status => 500
         end
 
     end
@@ -111,14 +113,13 @@ class BuildsController < ApplicationController
 
         cmd_str = @build.cmd_str cmd
 
-        @build.log  "running command: #{cmd_str}"
 
-        if system(cmd_str) == true
+        if @build.execute_cmd(cmd) == true
             @build.log  "create artefact ok"
-	    response.headers['dist_name'] = "#{dir_name_with_ts}.tar.gz"
+	        response.headers['dist_name'] = "#{dir_name_with_ts}.tar.gz"
             render :text => "create artefact ok\n"
         else
-            render :text => "command #{cmd_str} failed\n", :status => 500
+            render :text => "create artefact failed\ncheck #{url_for(@build) } for details", :status => 500
         end
 
     end
@@ -155,7 +156,12 @@ class BuildsController < ApplicationController
         send_file @build.log_path
     end
 
-    def short_log
+    def head
+        @build = Build.find params[:id]
+        render :text => `head -n 10 #{@build.log_path}`
+    end
+
+    def tail
         @build = Build.find params[:id]
         render :text => `tail -n 10 #{@build.log_path}`
     end
