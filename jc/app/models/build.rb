@@ -45,7 +45,7 @@ class Build < ActiveRecord::Base
     
             exit_status = nil
 
-            Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+            Open3.popen3(cmd_str) do |stdin, stdout, stderr, wait_thr|
     
                 while line = stdout.gets("\n")
                     log line
