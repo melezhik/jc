@@ -118,8 +118,8 @@ class BuildsController < ApplicationController
             @build.log  "create artefact ok"
 	        response.headers['dist_name'] = "#{dir_name_with_ts}.tar.gz"
             # distribution_name
-            build.update :distribution_name => "#{dir_name_with_ts}.tar.gz"
-            build.save!
+            @build.update :distribution_name => "#{dir_name_with_ts}.tar.gz"
+            @build.save!
             render :text => "create artefact ok\n"
         else
             render :text => "create artefact failed\ncheck #{url_for(@build) } for details", :status => 500
