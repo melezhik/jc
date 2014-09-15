@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902075812) do
+ActiveRecord::Schema.define(version: 20140915114040) do
 
   create_table "builds", force: true do |t|
     t.integer  "key_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "distribution_name"
   end
 
   add_index "builds", ["key_id"], name: "index_builds_on_key_id", unique: true, using: :btree

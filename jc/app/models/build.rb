@@ -6,6 +6,10 @@ class Build < ActiveRecord::Base
     has_many :targets
     validates :key_id, presence: true    
 
+    def has_artefact?
+        distribution_name.nil? == false and distribution_name.empty? ==  false
+    end
+
     def log_path
         "#{dir}/log.txt"
     end

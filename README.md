@@ -38,7 +38,11 @@ creates js build object, on success returns object's ID in `build_id` http heade
 
     curl -X POST  -d 'url=file:///tmp/boomerang2-bundle-v0.2.5.66567-1033.tar.gz' -d 'orig_dir=boomerang2-bundle-v0.2.5' http://127.0.0.1:3000/builds/25/artefact    
 
-- creates artefact for given distribution, returns artefact name as `dist_name` http header
+## destroy build
+
+    curl -X DELETE  http://127.0.0.1:3000/builds/27
+
+- destroy build object, delete build local directory and ( if build has artefact ) dlete artefact file
 
 
 ## show build log

@@ -117,11 +117,27 @@ class BuildsController < ApplicationController
         if @build.execute_cmd(cmd) == true
             @build.log  "create artefact ok"
 	        response.headers['dist_name'] = "#{dir_name_with_ts}.tar.gz"
+            # distribution_name
+            build.update :distribution_name => "#{dir_name_with_ts}.tar.gz"
+            build.save!
             render :text => "create artefact ok\n"
         else
             render :text => "create artefact failed\ncheck #{url_for(@build) } for details", :status => 500
         end
 
+    end
+
+    def destroy
+        @build = Build.find params[:id]
+        if @build.has_artefact?
+            @build.log "build has artefact: <#{@build.distribution_name}>, destroy it first ... "
+            @build.execute_cmd [ "rm #{_artefacts_dir}/#{@build.distribution_name}", "rm -rf #{@build.dir}" ]
+        else
+            @build.execute_cmd [ "rm -rf #{@build.dir}" ]
+        end
+
+        @build.destroy!
+        render :text => "destroy build ID: #{params[:id]}"
     end
    
     def summary
