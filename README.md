@@ -22,40 +22,40 @@ JC - is a jessy compiler
 
 ## create build
 
-    curl -X POST  -d 'build[key_id]=33' http://127.0.0.1:3000/builds/ -D -
+    curl -X POST  -d 'build[key_id]=33' http://127.0.0.1:4000/builds/ -D -
 
 creates js build object, on success returns object's ID in `build_id` http header
 
 
 ## copy
 
-    curl -X POST  http://127.0.0.1:3000/builds/27/copy?key_id=1001 -d ''
+    curl -X POST  http://127.0.0.1:4000/builds/27/copy?key_id=1001 -d ''
 
 - copies jc build with key_id into given js build, techically speaking copies install base from one build to another 
 
 
 ## create artefact
 
-    curl -X POST  -d 'url=file:///tmp/boomerang2-bundle-v0.2.5.66567-1033.tar.gz' -d 'orig_dir=boomerang2-bundle-v0.2.5' http://127.0.0.1:3000/builds/25/artefact    
+    curl -X POST  -d 'url=file:///tmp/boomerang2-bundle-v0.2.5.66567-1033.tar.gz' -d 'orig_dir=boomerang2-bundle-v0.2.5' http://127.0.0.1:4000/builds/25/artefact    
 
 ## destroy build
 
-    curl -X DELETE  http://127.0.0.1:3000/builds/27
+    curl -X DELETE  http://127.0.0.1:4000/builds/27
 
 - destroy build object, delete build local directory and ( if build has artefact ) dlete artefact file
 
 
 ## show build log
 
-    curl  http://127.0.0.1:3000/builds/25/log
+    curl  http://127.0.0.1:4000/builds/25/log
 
 ## make request for asynchronous install of targets
 
-    curl -X POST  -d 't[]=Foo::Bar' -d 't[]=P/PINTO/Foo-Bar-Baz-0.1.0.tar.gz'  -d 't[]=Adriver::DBI'  -d 'cpan_mirror=http://cpan.webdev.x/CPAN' http://127.0.0.1:3000/builds/25/install
+    curl -X POST  -d 't[]=Foo::Bar' -d 't[]=P/PINTO/Foo-Bar-Baz-0.1.0.tar.gz'  -d 't[]=Adriver::DBI'  -d 'cpan_mirror=http://cpan.webdev.x/CPAN' http://127.0.0.1:4000/builds/25/install
 
 ## get current state of  target installed
 
-    curl  http://127.0.0.1:3000/builds/25/target_state?name=Adriver::DBI
+    curl  http://127.0.0.1:4000/builds/25/target_state?name=Adriver::DBI
 
 returns target state as `target_state' http header, one of these:
 
@@ -67,7 +67,7 @@ returns target state as `target_state' http header, one of these:
 
 ## summary
 
-    http://127.0.0.1:3000/builds/25/summary 
+    http://127.0.0.1:4000/builds/25/summary 
 
 returns build summary info in human readable form
 
