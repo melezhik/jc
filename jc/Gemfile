@@ -50,3 +50,4 @@ gem 'daemons'
 
 gem 'terminal-table'
 
+gem 'puma'
