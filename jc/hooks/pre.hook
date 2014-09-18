@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cpanm -l cpanlib --skip-satisfied parent~0.223 IO::Compress::Bzip2~2.021 base~2.16 Test::More~0.94 Perl::OSType  && \
+cpanm -l cpanlib  Module::Metadata && \
+cpanm -L cpanlib  --skip-satisfied  version~0.87 && \
+cpanm -L cpanlib  --skip-satisfied -f IOC
+
