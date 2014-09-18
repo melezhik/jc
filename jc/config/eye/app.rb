@@ -27,6 +27,11 @@ Eye.application app do
         (1..workers).each do |i|
             process "dj#{i}" do
                 env 'PERL5LIB' => "#{ENV['HOME']}/perl5/lib/perl5:/usr/local/rle/lib/perl5"
+                env 'http_proxy' => 'http://squid.adriver.x:3128'
+                env 'https_proxy' => 'http://squid.adriver.x:3128'
+                env 'HTTP_PROXY' => 'http://squid.adriver.x:3128'
+                env 'HTTPS_PROXY' => 'http://squid.adriver.x:3128'
+                env 'no_proxy' => 'localhost,127.0.0.1,10.0.0.0,.x,0'
                 pid_file "tmp/pids/delayed_job.#{i}.pid" # pid_path will be expanded with the working_dir
                 start_command "./bin/delayed_job start -i #{i}"
                 stop_command "./bin/delayed_job stop -i #{i}"
