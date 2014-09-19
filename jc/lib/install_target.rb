@@ -18,7 +18,7 @@ class InstallTarget < Struct.new( :build, :list , :env, :async   )
 
             build.log "run install for <#{t.name}>"
             cmd = Array.new
-            cmd << "cpanm -l #{build.dir}/cpanlib --mirror #{env[:cpan_mirror]} --mirror-only #{t.name}"
+            cmd << "cpanm -q -l #{build.dir}/cpanlib --mirror #{env[:cpan_mirror]} --mirror-only #{t.name}"
             if build.execute_cmd(cmd, false) == true
                 build.log  "target <#{t.name} installed ok>"
                 t.update :state => 'ok'
