@@ -188,6 +188,11 @@ class BuildsController < ApplicationController
         render :text => "log truncate ok\n"
     end
 
+    def cpanm_log
+        @build = Build.find params[:id]
+        send_file @build.cpanm_log_path(params["cpanm_id"])
+    end
+
 private
 
     def _params

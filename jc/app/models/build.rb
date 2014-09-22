@@ -14,6 +14,10 @@ class Build < ActiveRecord::Base
         "#{dir}/log.txt"
     end
 
+    def cpanm_log_path cpanm_id
+        "#{Dir.home}/.cpanm/work/#{cpanm_id}/build.log"
+    end
+
     def logger
         if @logger 
             @logger

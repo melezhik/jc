@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         member do
             get 'log'
             get 'short_log'
+            get 'cpanm_log'
             get 'summary'
             get 'target_state'
             post 'copy'
