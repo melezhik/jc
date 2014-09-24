@@ -17,8 +17,8 @@ Eye.application app do
         start_command "puma -C config/puma.rb -d --pidfile #{cwd}/tmp/pids/server.pid"
         daemonize false
         stdall "#{cwd}/log/api.eye.log"
-        start_timeout 30.seconds
-        stop_timeout 30.seconds
+        start_timeout 10.seconds
+        stop_timeout 10.seconds
     end
 
     group 'dj' do
@@ -26,19 +26,20 @@ Eye.application app do
         workers = (ENV['dj_workers']||'2').to_i
         (1..workers).each do |i|
             process "dj#{i}" do
+
+                stdall "#{cwd}/log/dj.eye.log"
+
+                pid_file "tmp/pids/delayed_job.#{i}.pid" # pid_path will be expanded with the working_dir
+                start_command 'rake jobs:work'
+                daemonize true
+
                 env 'PERL5LIB' => "#{ENV['HOME']}/perl5/lib/perl5:/usr/local/rle/lib/perl5"
                 env 'http_proxy' => 'http://squid.adriver.x:3128'
                 env 'https_proxy' => 'http://squid.adriver.x:3128'
                 env 'HTTP_PROXY' => 'http://squid.adriver.x:3128'
                 env 'HTTPS_PROXY' => 'http://squid.adriver.x:3128'
                 env 'no_proxy' => 'localhost,127.0.0.1,10.0.0.0,.x,0'
-                pid_file "tmp/pids/delayed_job.#{i}.pid" # pid_path will be expanded with the working_dir
-                start_command "./bin/delayed_job start -i #{i}"
-                stop_command "./bin/delayed_job stop -i #{i}"
-                daemonize false
-                stdall "#{cwd}/log/dj.eye.log"
-                start_timeout 30.seconds
-                stop_timeout 30.seconds
+
             end
         end
 
