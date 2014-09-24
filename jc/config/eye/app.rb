@@ -13,12 +13,21 @@ Eye.application app do
   stdall "#{cwd}/log/trash.log" # stdout,err logs for processes by default
 
     process :api do
+
         pid_file "tmp/pids/server.pid"
+
+	if ENV['RAILS_ENV'] == 'production'
+		env 'SECRET_KEY_BASE' => 'jc'
+	end	
+
+
         start_command "puma -C config/puma.rb -d --pidfile #{cwd}/tmp/pids/server.pid"
         daemonize false
+
         stdall "#{cwd}/log/api.eye.log"
         start_timeout 10.seconds
         stop_timeout 10.seconds
+
     end
 
     group 'dj' do

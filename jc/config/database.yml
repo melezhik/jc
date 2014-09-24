@@ -19,6 +19,16 @@ development:
    password: jc
    host: sql3.webdev.x
 
+production:
+   adapter: mysql2
+   encoding: utf8
+   reconnect: true
+   database: jc
+   pool: 5
+   username: jc
+   password: jc
+   host: mysql3.adriver.x
+
 
 
 # Warning: The database defined as "test" will be erased and
@@ -28,6 +38,3 @@ test:
   <<: *default
   database: db/test.sqlite3
 
-production:
-  <<: *default
-  database: db/production.sqlite3
