@@ -15,10 +15,11 @@ JC - is a jessy compiler
 
 # Configuration
 
+
+## setup database connetction
+
     su - jc
-    mkdir -p ~/.jc/artefacts
-    cd jc/jc/public/
-    ln -s ~/.jc/artefacts artefacts
+    cd jc/jc/
 
     nano config/database.yml 
 
@@ -31,9 +32,13 @@ JC - is a jessy compiler
    	    username: *******
    	    password: jc
    	    host: mysql.production.x
-	    
 
+## setup directory for artefacts
 
+    su - jc
+    mkdir -p ~/.jc/artefacts
+    cd jc/jc/public/
+    ln -s ~/.jc/artefacts artefacts
 
 # API
 
