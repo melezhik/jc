@@ -2,9 +2,15 @@
 
 JC - is a jessy compiler
 
+# Dependencies
+
+    ruby ( better to install with rvm )
+    node-js
+    libmysqlclient-dev
+    libssl-dev
+    sqlite3-dev
 
 # INSTALLATION
-
 
     su - jc
     git clone git@git.x:melezhik/jc.git
@@ -14,7 +20,6 @@ JC - is a jessy compiler
     eye i
 
 # Configuration
-
 
 ## setup database connetction
 
