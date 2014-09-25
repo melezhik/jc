@@ -20,6 +20,21 @@ JC - is a jessy compiler
     cd jc/jc/public/
     ln -s ~/.jc/artefacts artefacts
 
+    nano config/database.yml 
+
+	    production:
+   	    adapter: mysql2
+   	    encoding: utf8
+   	    reconnect: true
+   	    database: jc
+   	    pool: 5
+   	    username: *******
+   	    password: jc
+   	    host: mysql.production.x
+	    
+
+
+
 # API
 
 ## create build
