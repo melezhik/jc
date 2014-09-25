@@ -16,6 +16,9 @@ JC - is a jessy compiler
     git clone git@git.x:melezhik/jc.git
     cd jc/jc
     bundle
+    export RAILS_ENV=production
+    export dj_workers=5
+    mkdir -p tmp/pids
     eye load config/eye/app.rb
     eye i
 
