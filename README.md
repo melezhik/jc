@@ -5,24 +5,18 @@ JC - is a jessy compiler
 # Dependencies
 
     ruby ( better to install with rvm )
-    node-js
+    nodejs
     libmysqlclient-dev
     libssl-dev
     sqlite3-dev
 
-# INSTALLATION
+# INSTALLATION AND CONFIGURATION
+
+## get source code
 
     su - jc
     git clone git@git.x:melezhik/jc.git
     cd jc/jc
-    bundle
-    export RAILS_ENV=production
-    export dj_workers=5
-    mkdir -p tmp/pids
-    eye load config/eye/app.rb
-    eye i
-
-# Configuration
 
 ## setup database connetction
 
@@ -40,6 +34,23 @@ JC - is a jessy compiler
    	    username: *******
    	    password: jc
    	    host: mysql.production.x
+
+## install dependencies
+
+    bundle
+
+## deploy database 
+
+    export RAILS_ENV=production
+    rake db:migrate
+
+## run application
+
+    export dj_workers=5
+    mkdir -p tmp/pids
+
+    eye load config/eye/app.rb
+    eye i
 
 ## setup directory for artefacts
 
