@@ -52,6 +52,8 @@ JC - is a jessy compiler
     eye load config/eye/app.rb
     eye i
 
+    curl 0.0.0.0:4000  # make test request
+
 ## setup directory for artefacts
 
     su - jc
