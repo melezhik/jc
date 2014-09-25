@@ -16,11 +16,9 @@ JC - is a jessy compiler
 
     su - jc
     git clone git@git.x:melezhik/jc.git
-    cd jc/jc
 
 ## setup database connetction
 
-    su - jc
     cd jc/jc/
 
     nano config/database.yml 
@@ -37,15 +35,18 @@ JC - is a jessy compiler
 
 ## install dependencies
 
+    cd jc/jc/
     bundle
 
 ## deploy database 
 
+    cd jc/jc/
     export RAILS_ENV=production
     rake db:migrate
 
 ## run application
 
+    cd jc/jc/
     export dj_workers=5
     mkdir -p tmp/pids
 
@@ -56,7 +57,6 @@ JC - is a jessy compiler
 
 ## setup directory for artefacts
 
-    su - jc
     mkdir -p ~/.jc/artefacts
     cd jc/jc/public/
     ln -s ~/.jc/artefacts artefacts
