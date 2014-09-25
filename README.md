@@ -9,7 +9,9 @@ JC - is a jessy compiler
     su - jc
     git clone git@git.x:melezhik/jc.git
     cd jc/jc
+    bundle
     eye load config/eye/app.rb
+    eye i
 
 # Configuration
 
