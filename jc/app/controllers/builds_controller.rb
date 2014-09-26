@@ -47,7 +47,7 @@ class BuildsController < ApplicationController
 
     def copy
 
-        @old_build = Build.find_by_key_id! params[:key_id]
+        @old_build = Build.find params[:jc_id]
         @build = Build.find params[:id]
 
         @build.log "copy builds: from: #{@old_build.id} to #{@build.id}"
