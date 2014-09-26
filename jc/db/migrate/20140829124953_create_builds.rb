@@ -5,6 +5,6 @@ class CreateBuilds < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :builds, :key_id, unique: true
+    add_index :builds, :key_id
   end
 end
