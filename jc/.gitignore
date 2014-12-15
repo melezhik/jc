@@ -16,5 +16,6 @@
 /tmp
 
 config/database.yml
+config/eye/app.rb
 
 
